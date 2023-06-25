@@ -1,25 +1,22 @@
-import {
-	Container,
-	Flex,
-	Heading,
-	Divider,
-	Button,
-	Box,
-} from "@chakra-ui/react";
-import { FiPlusCircle } from "react-icons/fi";
+import { Container, Flex, Heading, Divider, Box } from "@chakra-ui/react";
+
 import "@fontsource/poppins";
 import "./App.css";
 
 import { StatsView } from "./components/StatsView";
 import { TransactionList } from "./components/TransactionList";
-
+import { CreateTransaction } from "./components/CreateTransaction";
 function App() {
 	return (
 		<Container maxW="6xl">
 			<Flex my={4} justifyContent="space-between">
 				<Heading>Finance Tracker</Heading>
 				<Box>
-					<Button leftIcon={<FiPlusCircle />}>Add expense</Button>
+					<CreateTransaction
+						addTransaction={(transaction, month, year) => {
+							console.log(transaction, month, year);
+						}}
+					/>
 				</Box>
 			</Flex>
 			<Divider />

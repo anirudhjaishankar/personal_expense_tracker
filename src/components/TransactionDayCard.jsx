@@ -21,13 +21,13 @@ export function TransactionDayCard({ transactionsByDate, date }) {
 		<Card my={2}>
 			<CardHeader>
 				<Flex justifyContent="space-between">
-					<Box m={2}>
-						<Text fontSize="xl">{date}</Text>
+					<Box>
+						<Text fontSize="lg">{date}</Text>
 					</Box>
 					<Flex>
 						{expense !== 0 && (
-							<Box m={2}>
-								<Text fontSize="xl">
+							<Box mx={1}>
+								<Text fontSize="lg">
 									Expense{" "}
 									<Text as="span" color="red.200">
 										{expense}
@@ -36,8 +36,8 @@ export function TransactionDayCard({ transactionsByDate, date }) {
 							</Box>
 						)}
 						{income !== 0 && (
-							<Box m={2}>
-								<Text fontSize="xl">
+							<Box mx={1}>
+								<Text fontSize="lg">
 									Income{" "}
 									<Text as="span" color="green.200">
 										{income}
