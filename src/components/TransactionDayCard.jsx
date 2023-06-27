@@ -10,13 +10,10 @@ import {
 	Text,
 	Badge,
 } from "@chakra-ui/react";
+import { getTotalExpense, getTotalIncome } from "../utils";
 export function TransactionDayCard({ transactionsByDate, date }) {
-	const expense = transactionsByDate
-		.filter((transaction) => transaction.type === "expense")
-		.reduce((acc, curr) => acc + curr.amount, 0);
-	const income = transactionsByDate
-		.filter((transaction) => transaction.type === "income")
-		.reduce((acc, curr) => acc + curr.amount, 0);
+	const expense = getTotalExpense(transactionsByDate);
+	const income = getTotalIncome(transactionsByDate);
 	return (
 		<Card my={2}>
 			<CardHeader>
@@ -55,7 +52,7 @@ export function TransactionDayCard({ transactionsByDate, date }) {
 						<Flex justifyContent="space-between" key={transaction.id} m={2}>
 							<Box>
 								{transaction.name}{" "}
-								<Badge variant="subtle">{transaction.label}</Badge>
+								<Badge variant="subtle">{transaction.category}</Badge>
 							</Box>
 							<Box
 								color={transaction.type === "expense" ? "red.500" : "green.500"}

@@ -16,8 +16,9 @@ import {
 	useToast,
 } from "@chakra-ui/react";
 import { FiPlusCircle } from "react-icons/fi";
+import { createTransaction } from "../db/transactions";
 
-const labels = [
+const categories = [
 	"Miscellaneous",
 	"Entertainment",
 	"Food",
@@ -30,7 +31,7 @@ export function CreateTransaction({ addTransaction }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [name, setName] = useState("");
 	const [type, setType] = useState("expense");
-	const [label, setLabel] = useState(labels[0]);
+	const [category, setCategory] = useState(categories[0]);
 	const [amount, setAmount] = useState("");
 	const [date, setDate] = useState("");
 	const toast = useToast();
@@ -48,30 +49,36 @@ export function CreateTransaction({ addTransaction }) {
 			let transaction = {
 				name,
 				type,
-				label,
+				category,
 				amount,
-				date: new Date(date),
+				date: new Date(date).toLocaleDateString("en-GB"),
 			};
-			addTransaction(
-				transaction,
-				transaction.date.getMonth(),
-				transaction.date.getFullYear()
-			);
-			toast({
-				title: "Transaction added",
-				status: "success",
-				duration: 5000,
-				isClosable: true,
-			});
-
-			onClose();
+			createTransaction(transaction)
+				.then((_id) => {
+					toast({
+						title: "Transaction added",
+						status: "success",
+						duration: 5000,
+						isClosable: true,
+					});
+					onClose();
+				})
+				.catch((err) => {
+					console.log(err);
+					toast({
+						title: "Transaction failed to add",
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
+				});
 		}
 	};
 
 	const resetForm = () => {
 		setName("");
 		setType("expense");
-		setLabel(labels[0]);
+		setCategory(categories[0]);
 		setAmount("");
 		setDate("");
 	};
@@ -132,15 +139,15 @@ export function CreateTransaction({ addTransaction }) {
 							</Select>
 						</FormControl>
 						<FormControl my={2}>
-							<FormLabel>Label</FormLabel>
+							<FormLabel>Category</FormLabel>
 							<Select
 								variant="filled"
-								value={label}
+								value={category}
 								onChange={(e) => {
-									setLabel(e.target.value);
+									setCategory(e.target.value);
 								}}
 							>
-								{labels.map((label) => (
+								{categories.map((label) => (
 									<option value={label} key={label}>
 										{label}
 									</option>

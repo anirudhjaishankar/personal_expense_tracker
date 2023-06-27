@@ -1,45 +1,45 @@
 import {
-  Card,
-  CardBody,
-  Flex,
-  Divider,
-  Box,
-  Stat,
-  StatLabel,
-  StatNumber,
+	Card,
+	CardBody,
+	Flex,
+	Divider,
+	Box,
+	Stat,
+	StatLabel,
+	StatNumber,
 } from "@chakra-ui/react";
 
 export function StatsView({ income, expense }) {
-  return (
-    <Card my={4}>
-      <CardBody>
-        <Flex direction="row" justifyContent="space-evenly">
-          <Box>
-            <Stat>
-              <StatLabel>Income</StatLabel>
-              <StatNumber>₹ {income}</StatNumber>
-            </Stat>
-          </Box>
-          <Box>
-            <Divider orientation="vertical" />
-          </Box>
-          <Box>
-            <Stat>
-              <StatLabel>Expense</StatLabel>
-              <StatNumber>₹ {expense}</StatNumber>
-            </Stat>
-          </Box>
-          <Box>
-            <Divider orientation="vertical" />
-          </Box>
-          <Box>
-            <Stat>
-              <StatLabel>Balance</StatLabel>
-              <StatNumber>₹ {income - expense}</StatNumber>
-            </Stat>
-          </Box>
-        </Flex>
-      </CardBody>
-    </Card>
-  );
+	return (
+		<Card my={4}>
+			<CardBody>
+				<Flex direction="row" justifyContent="space-evenly">
+					<Box>
+						<Stat>
+							<StatLabel>Income</StatLabel>
+							<StatNumber>₹ {income}</StatNumber>
+						</Stat>
+					</Box>
+					<Box>
+						<Divider orientation="vertical" />
+					</Box>
+					<Box>
+						<Stat>
+							<StatLabel>Expense</StatLabel>
+							<StatNumber>₹ {expense}</StatNumber>
+						</Stat>
+					</Box>
+					<Box>
+						<Divider orientation="vertical" />
+					</Box>
+					<Box>
+						<Stat>
+							<StatLabel>Balance</StatLabel>
+							<StatNumber>₹ {income - expense}</StatNumber>
+						</Stat>
+					</Box>
+				</Flex>
+			</CardBody>
+		</Card>
+	);
 }

@@ -5,7 +5,7 @@ const transactions = {
 			date: "Wednesday 12th July, 2023",
 			amount: 300,
 			name: "Dinner",
-			label: "Food",
+			category: "Food",
 			type: "expense",
 		},
 		{
@@ -13,7 +13,7 @@ const transactions = {
 			date: "Wednesday 12th July, 2023",
 			amount: 1500,
 			name: "Movie Snacks",
-			label: "Entertainment",
+			category: "Entertainment",
 			type: "expense",
 		},
 		{
@@ -21,7 +21,7 @@ const transactions = {
 			date: "Wednesday 12th July, 2023",
 			amount: 1000,
 			name: "Movie Tickets",
-			label: "Entertainment",
+			category: "Entertainment",
 			type: "expense",
 		},
 	],
@@ -31,7 +31,7 @@ const transactions = {
 			date: "Wednesday 13th July, 2023",
 			amount: 23000,
 			name: "June Share",
-			label: "Gammaprep",
+			category: "Gammaprep",
 			type: "income",
 		},
 		{
@@ -39,7 +39,7 @@ const transactions = {
 			date: "Wednesday 13th July, 2023",
 			amount: 1500,
 			name: "Movie Snacks",
-			label: "Entertainment",
+			category: "Entertainment",
 			type: "expense",
 		},
 		{
@@ -47,7 +47,7 @@ const transactions = {
 			date: "Wednesday 13th July, 2023",
 			amount: 1000,
 			name: "Movie Tickets",
-			label: "Entertainment",
+			category: "Entertainment",
 			type: "expense",
 		},
 	],

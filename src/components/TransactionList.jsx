@@ -1,16 +1,19 @@
 import { Box } from "@chakra-ui/react";
 import { TransactionDayCard } from "./TransactionDayCard";
-import transactions from "../../transactions";
-export function TransactionList() {
+import { groupBy } from "../utils";
+
+export function TransactionList({ transactions }) {
+	const transactionsByDate = transactions ? groupBy(transactions, "date") : [];
 	return (
 		<Box>
-			{Object.keys(transactions).map((date) => (
-				<TransactionDayCard
-					transactionsByDate={transactions[date]}
-					date={date}
-					key={date}
-				/>
-			))}
+			{transactionsByDate &&
+				Object.keys(transactionsByDate).map((date) => (
+					<TransactionDayCard
+						transactionsByDate={transactionsByDate[date]}
+						date={date}
+						key={date}
+					/>
+				))}
 		</Box>
 	);
 }
