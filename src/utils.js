@@ -32,3 +32,9 @@ export const getTotalIncome = (transactions) => {
 		})
 		.reduce((acc, curr) => acc + parseInt(curr.amount), 0);
 };
+
+export const getMonth = (date) => {
+	let currentMonth = date.getMonth() + 1;
+	currentMonth = currentMonth < 10 ? "0" + currentMonth : currentMonth;
+	return date.getFullYear() + "-" + currentMonth;
+};

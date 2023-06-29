@@ -27,7 +27,7 @@ const categories = [
 	"Education",
 ];
 
-export function CreateTransaction({ addTransaction }) {
+export function CreateTransaction() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [name, setName] = useState("");
 	const [type, setType] = useState("expense");
@@ -51,10 +51,10 @@ export function CreateTransaction({ addTransaction }) {
 				type,
 				category,
 				amount,
-				date: new Date(date).toLocaleDateString("en-GB"),
+				date: new Date(date),
 			};
 			createTransaction(transaction)
-				.then((_id) => {
+				.then(() => {
 					toast({
 						title: "Transaction added",
 						status: "success",

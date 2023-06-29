@@ -11,7 +11,7 @@ import {
 	Badge,
 } from "@chakra-ui/react";
 import { getTotalExpense, getTotalIncome } from "../utils";
-export function TransactionDayCard({ transactionsByDate, date }) {
+export function TransactionGroupCard({ transactionsByDate, group, isDate }) {
 	const expense = getTotalExpense(transactionsByDate);
 	const income = getTotalIncome(transactionsByDate);
 	return (
@@ -19,7 +19,9 @@ export function TransactionDayCard({ transactionsByDate, date }) {
 			<CardHeader>
 				<Flex justifyContent="space-between">
 					<Box>
-						<Text fontSize="lg">{date}</Text>
+						<Text fontSize="lg">
+							{isDate ? new Date(group).toDateString() : group}
+						</Text>
 					</Box>
 					<Flex>
 						{expense !== 0 && (
