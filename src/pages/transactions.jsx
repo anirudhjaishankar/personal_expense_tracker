@@ -68,7 +68,9 @@ export function TransactionsPage() {
 					/>
 				</Box>
 			</Flex>
-			{transactions && <StatsView expense={expense} income={income} />}
+			{transactions && (
+				<StatsView expense={expense} income={income} isBudget={false} />
+			)}
 
 			<Flex justifyContent="space-between" alignItems="center" mb="2rem">
 				<Box>

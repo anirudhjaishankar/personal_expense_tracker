@@ -54,7 +54,9 @@ export function TransactionGroupCard({ transactionsByDate, group, isDate }) {
 						<Flex justifyContent="space-between" key={transaction.id} m={2}>
 							<Box>
 								{transaction.name}{" "}
-								<Badge variant="subtle">{transaction.category}</Badge>
+								{isDate && (
+									<Badge variant="subtle">{transaction.category}</Badge>
+								)}
 							</Box>
 							<Box
 								color={transaction.type === "expense" ? "red.500" : "green.500"}
