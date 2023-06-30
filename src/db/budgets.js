@@ -5,6 +5,7 @@ export function createBudget(newBudget) {
 }
 
 export function getBudgetByMonthYear(month, year) {
+	console.log(month, year);
 	return db.budgets.where({ month, year }).toArray();
 }
 
