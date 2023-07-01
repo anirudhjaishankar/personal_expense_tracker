@@ -18,28 +18,23 @@ import { StatsView } from "../components/statsView";
 import { TransactionList } from "../components/TransactionList";
 import { CreateTransaction } from "../components/CreateTransaction";
 import { getMonth } from "../utils";
-import { getBudgetByMonthYear } from "../db/budgets";
+import { warning } from "framer-motion";
 
 export function TransactionsPage() {
   const today = new Date();
   let toast = useToast();
   useEffect(() => {
-    async function checkNextMonthBudget() {
-      let nextMonthBudget = await getBudgetByMonthYear(
-        today.getMonth() + 1,
-        today.getFullYear()
-      );
-      console.log(nextMonthBudget.length === 0);
-      if (today.getDate() > 24 && nextMonthBudget.length === 0) {
-        toast({
-          title: "Create a budget for next month",
-          status: "warning",
-          duration: 5000,
-          isClosable: true,
-        });
-      }
+    let activeBudget = localStorage.getItem("activeBudget");
+    console.log(activeBudget);
+    if (activeBudget == null) {
+      toast({
+        title: "No active budget",
+        description: "Set an active budget to track",
+        isClosable: true,
+        duration: 5000,
+        status: "warning",
+      });
     }
-    checkNextMonthBudget();
   }, []);
   let [income, setIncome] = useState(0);
   let [expense, setExpense] = useState(0);

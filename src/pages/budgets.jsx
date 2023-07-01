@@ -14,22 +14,23 @@ import {
   Card,
   Text,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import { Emoji } from "emoji-picker-react";
+import { FiPlusCircle } from "react-icons/fi";
 import { useState } from "react";
 import { getMonth } from "../utils";
-import { StatsView } from "../components/StatsView";
-import { getBudgetByMonthYear, createBudget } from "../db/budgets";
+// import { StatsView } from "../components/StatsView";
+import { createBudget, getAllBudgets } from "../db/budgets";
 import { useLiveQuery } from "dexie-react-hooks";
 import { CreateBudgetItem } from "../components/CreateBudgetItem";
 
 export function BudgetsPage() {
+  const navigate = useNavigate();
   const today = new Date();
-  let [selectedMonth, setSelectedMonth] = useState(getMonth(today));
   const budget = useLiveQuery(async () => {
-    let [year, month] = selectedMonth.split("-");
-    let budgets = await getBudgetByMonthYear(month, year);
+    let budgets = await getAllBudgets();
     return budgets;
-  }, [selectedMonth]);
+  }, []);
 
   function onCreateBudget() {
     let [year, month] = selectedMonth.split("-");
@@ -51,14 +52,17 @@ export function BudgetsPage() {
       <Flex justifyContent="space-between" alignItems="center" mb="2rem">
         <Heading>Budgets</Heading>
         <Box>
-          <Input
-            type="month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-          />
+          <Button
+            leftIcon={<FiPlusCircle />}
+            onClick={() => {
+              navigate("/budgets/new");
+            }}
+          >
+            Create Budget
+          </Button>
         </Box>
       </Flex>
-      <StatsView income={115000} expense={115000} isBudget={true} />
+      {/* <StatsView income={115000} expense={115000} isBudget={true} /> */}
       <Flex mb={4}>
         <CreateBudgetItem budget={budget} />
       </Flex>
