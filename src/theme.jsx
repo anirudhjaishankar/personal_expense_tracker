@@ -5,6 +5,8 @@ const theme = extendTheme({
     heading: `'Poppins', sans-serif`,
     body: `'Poppins', sans-serif`,
   },
+  initialColorMode: 'dark',
+  useSystemColorMode: false
 })
 
 export default theme
