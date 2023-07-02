@@ -18,8 +18,9 @@ import {
 } from "@chakra-ui/react";
 import { FiPlusCircle } from "react-icons/fi";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
+import { createBudgetItem } from "../db/budgetItems";
 
-export function CreateBudgetItem({ budget }) {
+export function CreateBudgetItem({ onItemCreate }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
   const [category, setCategory] = useState("");
@@ -38,14 +39,32 @@ export function CreateBudgetItem({ budget }) {
         isClosable: true,
       });
     } else {
-      console.log(budget);
       let budgetItem = {
         emoji,
         type,
         category,
         amount,
       };
-      console.log(budgetItem);
+      createBudgetItem(budgetItem)
+        .then((data) => {
+          toast({
+            title: "Budget Item created successfully!",
+            status: "success",
+            isClosable: true,
+            duration: 5000,
+          });
+          resetForm();
+          onClose();
+          onItemCreate();
+        })
+        .catch((err) => {
+          toast({
+            title: "Failed to add Budget Item!",
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        });
     }
   };
 

@@ -8,6 +8,10 @@ export function getBudgetItemsByIds(ids) {
 	return db.budgetItems.bulkGet(ids).toArray();
 }
 
+export function getAllBudgetItems() {
+	return db.table('budgetItems').toArray();
+}
+
 export function updateBudgetItem(budgetItem) {
 	return db.budgetItems.put(budgetItem);
 }
