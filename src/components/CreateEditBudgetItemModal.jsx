@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import {
 	Button,
 	Modal,
@@ -8,7 +9,6 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	useDisclosure,
 	FormControl,
 	FormLabel,
 	Input,
@@ -16,12 +16,14 @@ import {
 	useToast,
 	Center,
 } from "@chakra-ui/react";
-import { FiPlusCircle } from "react-icons/fi";
 import EmojiPicker, { Emoji } from "emoji-picker-react";
-import { createBudgetItem } from "../db/budgetItems";
 
-export function CreateBudgetItem({ onItemCreate }) {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+export function CreateEditBudgetItemModal({
+	isEdit = false,
+	onItemAction,
+	budgetItem = null,
+	onClose,
+}) {
 	const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 	const [category, setCategory] = useState("");
 	const [type, setType] = useState("expense");
@@ -29,7 +31,10 @@ export function CreateBudgetItem({ onItemCreate }) {
 	const [emoji, setEmoji] = useState("1f4b8");
 	const toast = useToast();
 
-	const handleCreateBudgetItem = () => {
+	useEffect(() => {
+		setEditForm();
+	}, []);
+	const handleAction = () => {
 		if (category.length === 0 || amount.length === 0) {
 			toast({
 				title: "Fill all required fields",
@@ -39,37 +44,31 @@ export function CreateBudgetItem({ onItemCreate }) {
 				isClosable: true,
 			});
 		} else {
-			let budgetItem = {
+			let currentBudgetItem = {
 				emoji,
 				type,
 				category,
 				amount,
 			};
-			createBudgetItem(budgetItem)
-				.then((_data) => {
-					toast({
-						title: "Budget Item created successfully!",
-						status: "success",
-						isClosable: true,
-						duration: 5000,
-					});
-					resetForm();
-					onClose();
-					onItemCreate();
-				})
-				.catch((err) => {
-					console.log(err);
-					toast({
-						title: "Failed to add Budget Item!",
-						status: "error",
-						duration: 5000,
-						isClosable: true,
-					});
-				});
+			if (isEdit) {
+				currentBudgetItem.id = budgetItem.id;
+			}
+			onItemAction(currentBudgetItem);
+			onClose();
 		}
 	};
 
+	function setEditForm() {
+		setEmoji(budgetItem.emoji);
+		setType(budgetItem.type);
+		setAmount(budgetItem.amount);
+		setCategory(budgetItem.category);
+	}
+
 	const resetForm = () => {
+		if (isEdit) {
+			setEditForm();
+		}
 		setType("expense");
 		setCategory("");
 		setAmount("");
@@ -83,19 +82,10 @@ export function CreateBudgetItem({ onItemCreate }) {
 
 	return (
 		<>
-			<Button onClick={onOpen} leftIcon={<FiPlusCircle />}>
-				Create Item
-			</Button>
-			<Modal
-				isOpen={isOpen}
-				onClose={() => {
-					onClose();
-					resetForm();
-				}}
-			>
+			<Modal isOpen>
 				<ModalOverlay />
 				<ModalContent my={4}>
-					<ModalHeader>Add Budget Item</ModalHeader>
+					<ModalHeader>{isEdit ? "Edit" : "Create"} Budget Item</ModalHeader>
 					<ModalCloseButton
 						onClick={() => {
 							onClose();
@@ -146,8 +136,8 @@ export function CreateBudgetItem({ onItemCreate }) {
 						</FormControl>
 					</ModalBody>
 					<ModalFooter>
-						<Button colorScheme="blue" mr={3} onClick={handleCreateBudgetItem}>
-							Add
+						<Button colorScheme="blue" mr={3} onClick={handleAction}>
+							{isEdit ? "Edit" : "Add"}
 						</Button>
 						<Button
 							variant="ghost"
