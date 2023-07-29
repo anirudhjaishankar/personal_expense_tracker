@@ -19,3 +19,8 @@ export function getBudgetById(budgetId) {
 export function getAllBudgets() {
 	return db.table("budgets").toArray();
 }
+
+export async function changeActiveBudget(oldId, newId) {
+	if (oldId) await db.budgets.update(oldId, { isActive: false });
+	return db.budgets.update(newId, { isActive: true });
+}

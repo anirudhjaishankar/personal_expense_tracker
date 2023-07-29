@@ -1,15 +1,21 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, useColorModeValue } from "@chakra-ui/react";
 import { TransactionGroupCard } from "./TransactionGroupCard";
 import { groupBy } from "../utils";
 
 export function TransactionList({ transactions, groupByValue }) {
+	const noTransactionBannerBgColor = useColorModeValue("gray.200", "gray.700");
 	const transactionsByDate = transactions
 		? groupBy(transactions, groupByValue)
 		: [];
 	return (
 		<Box>
 			{transactions.length === 0 && (
-				<Box textAlign="center" py={4} bgColor="gray.700" borderRadius="md">
+				<Box
+					textAlign="center"
+					py={4}
+					bgColor={noTransactionBannerBgColor}
+					borderRadius="md"
+				>
 					<Text>No Transactions found</Text>
 				</Box>
 			)}

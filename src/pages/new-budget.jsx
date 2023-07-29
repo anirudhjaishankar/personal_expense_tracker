@@ -362,7 +362,9 @@ export function NewBudgetPage() {
 				</Box>
 			</Flex>
 			<Flex justifyContent="end">
-				<Button leftIcon={<FiCheck />}>Confirm</Button>
+				<Button onClick={onConfirm} leftIcon={<FiCheck />}>
+					Confirm
+				</Button>
 			</Flex>
 		</Box>
 	);

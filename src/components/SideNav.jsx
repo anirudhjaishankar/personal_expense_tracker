@@ -20,15 +20,24 @@ import {
 	FiMoon,
 	FiSun,
 	FiGrid,
+	FiCalendar,
+	FiBook,
+	FiCheckSquare,
+	FiTarget,
 } from "react-icons/fi";
+
 import { useLocation, Link } from "react-router-dom";
 import { Emoji, EmojiStyle } from "emoji-picker-react";
 
 const LinkItems = [
 	{ name: "Transactions", icon: FiHome, route: "/" },
 	{ name: "Budgets", icon: FiDollarSign, route: "/budgets" },
-	{ name: "Budget Items", icon: FiGrid, route: "/budget-items" },
+	{ name: "Goals", icon: FiTarget, route: "/reports" },
+	// { name: "Budget Items", icon: FiGrid, route: "/budget-items" },
 	{ name: "Reports", icon: FiFileText, route: "/reports" },
+	{ name: "Bills Reminder", icon: FiCalendar, route: "/reports" },
+	{ name: "Habit tracker", icon: FiCheckSquare, route: "/reports" },
+	{ name: "Notes", icon: FiBook, route: "/reports" },
 	{ name: "Settings", icon: FiSettings, route: "/settings" },
 ];
 
