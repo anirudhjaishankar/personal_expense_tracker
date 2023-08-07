@@ -37,7 +37,7 @@ const LinkItems = [
 	{ name: "Reports", icon: FiFileText, route: "/reports" },
 	{ name: "Bills Reminder", icon: FiCalendar, route: "/reports" },
 	{ name: "Habit tracker", icon: FiCheckSquare, route: "/reports" },
-	{ name: "Notes", icon: FiBook, route: "/reports" },
+	{ name: "Notes", icon: FiBook, route: "/notes" },
 	{ name: "Settings", icon: FiSettings, route: "/settings" },
 ];
 

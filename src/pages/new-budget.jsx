@@ -142,6 +142,7 @@ export function NewBudgetPage() {
 						onChange={(e) => {
 							setBudgetName(e.target.value);
 						}}
+						variant="filled"
 					/>
 				</Flex>
 				<CreateBudgetItem onItemCreate={populateBudgetItems} />
