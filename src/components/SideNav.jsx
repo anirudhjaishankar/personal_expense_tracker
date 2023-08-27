@@ -17,8 +17,6 @@ import {
 	FiMenu,
 	FiFileText,
 	FiDollarSign,
-	FiMoon,
-	FiSun,
 	FiGrid,
 	FiCalendar,
 	FiBook,
@@ -95,7 +93,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
 					key={link.name}
 					icon={link.icon}
 					route={link.route}
-					isActive={link.route === location.pathname}
 					colorMode={colorMode}
 				>
 					{link.name}

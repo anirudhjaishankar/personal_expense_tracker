@@ -9,16 +9,19 @@ import {
 	Stat,
 	StatLabel,
 	StatNumber,
+	Heading,
 } from "@chakra-ui/react";
-import { FiTrash2, FiEye, FiEdit } from "react-icons/fi";
+import { FiTrash2, FiEdit } from "react-icons/fi";
 import PropTypes from "prop-types";
 
-export function BudgetCard({ budget, onActivate, onDelete, onEdit, onView }) {
+export function BudgetCard({ budget, onActivate, onDelete, onEdit }) {
 	return (
 		<Card borderRadius={10}>
 			<CardHeader>
-				<Flex justifyContent="space-between">
-					<Box>{budget.name}</Box>
+				<Flex justifyContent="space-between" alignItems="center">
+					<Box>
+						<Heading size="lg">{budget.name}</Heading>
+					</Box>
 					<Box>
 						<Switch
 							isChecked={budget.isActive ?? false}
@@ -41,11 +44,6 @@ export function BudgetCard({ budget, onActivate, onDelete, onEdit, onView }) {
 				<Flex justifyContent="end" alignItems="center" mt={4}>
 					<IconButton
 						variant="ghost"
-						icon={<FiEye />}
-						onClick={() => onView(budget.id)}
-					/>
-					<IconButton
-						variant="ghost"
 						icon={<FiEdit />}
 						onClick={() => onEdit(budget.id)}
 					/>
@@ -65,5 +63,4 @@ BudgetCard.propTypes = {
 	onActivate: PropTypes.func.isRequired,
 	onDelete: PropTypes.func.isRequired,
 	onEdit: PropTypes.func.isRequired,
-	onView: PropTypes.func.isRequired,
 };

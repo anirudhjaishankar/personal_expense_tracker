@@ -1,3 +1,4 @@
+import { getBudgetItemsByIds } from "./budgetItems";
 import db from "./db";
 
 export function createBudget(newBudget) {
@@ -13,7 +14,15 @@ export function deleteBudget(budgetId) {
 }
 
 export function getBudgetById(budgetId) {
-	return db.budgets.get(budgetId);
+	return db.budgets
+		.get(+budgetId)
+		.then((budget) => {
+			return getBudgetItemsByIds(budget.budgetItems).then((budgetItems) => {
+				budget.budgetItems = budgetItems;
+				return budget;
+			});
+		})
+		.catch((err) => console.log(err));
 }
 
 export function getAllBudgets() {

@@ -26,7 +26,7 @@ export function BudgetsPage() {
 		let activeBudgetId = budgets?.find((b) => b.isActive)?.id;
 		console.log(activeBudgetId);
 		setCurrentActiveBudget(activeBudgetId);
-		if (!currentActiveBudget) {
+		if (budgets && !activeBudgetId) {
 			toast({
 				title: "No active budget!",
 				status: "warning",
@@ -81,7 +81,7 @@ export function BudgetsPage() {
 			return;
 		}
 		deleteBudget(budgetId)
-			.then((res) => {
+			.then(() => {
 				toast({
 					title: "Budget deleted successfully!",
 					status: "success",
@@ -90,6 +90,7 @@ export function BudgetsPage() {
 				});
 			})
 			.catch((err) => {
+				console.log(err);
 				toast({
 					title: "Failed to delete budget!",
 					status: "error",
@@ -97,6 +98,9 @@ export function BudgetsPage() {
 					duration: 5000,
 				});
 			});
+	}
+	function redirectToEditPage(budgetId) {
+		navigate("/budgets/" + budgetId);
 	}
 
 	return (
@@ -107,7 +111,7 @@ export function BudgetsPage() {
 					<Button
 						leftIcon={<FiPlusCircle />}
 						onClick={() => {
-							navigate("/budgets/new");
+							navigate("/budgets/0");
 						}}
 					>
 						Create Budget
@@ -123,8 +127,7 @@ export function BudgetsPage() {
 								budget={budget}
 								onActivate={activateBudget}
 								onDelete={handleDeleteBudget}
-								onEdit={() => {}}
-								onView={() => {}}
+								onEdit={redirectToEditPage}
 							/>
 						);
 					})}

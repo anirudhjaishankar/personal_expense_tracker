@@ -5,7 +5,7 @@ export function createBudgetItem(newBudgetItem) {
 }
 
 export function getBudgetItemsByIds(ids) {
-	return db.budgetItems.bulkGet(ids).toArray();
+	return db.budgetItems.where("id").anyOf(ids).toArray();
 }
 
 export function getBudgetItemsByType(type) {

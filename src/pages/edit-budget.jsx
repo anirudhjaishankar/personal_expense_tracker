@@ -10,16 +10,19 @@ import {
 	IconButton,
 	useToast,
 } from "@chakra-ui/react";
-import "./new-budget.css";
+import "./edit-budget.css";
 import { FiArrowLeft, FiCheck, FiPlus, FiMinus } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CreateBudgetItem } from "../components/CreateBudgetItem";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllBudgetItems } from "../db/budgetItems";
 import { Emoji } from "emoji-picker-react";
-import { createBudget } from "../db/budgets";
+import { createBudget, getBudgetById, updateBudget } from "../db/budgets";
+// import PropTypes from "prop-types";
 
-export function NewBudgetPage() {
+export function EditBudgetPage() {
+	let { budgetId } = useParams();
+	let isActive = useRef([]);
 	let [budgetName, setBudgetName] = useState("New Budget");
 	let [expenseItems, setExpenseItems] = useState([]);
 	let [incomeItems, setIncomeItems] = useState([]);
@@ -28,24 +31,39 @@ export function NewBudgetPage() {
 	const toast = useToast();
 	const borderColor = useColorModeValue("gray.200", "gray.700");
 	useEffect(() => {
-		populateBudgetItems();
+		if (budgetId != 0) {
+			getBudgetById(budgetId)
+				.then((budget) => {
+					console.log(budget);
+					if (budget && budget.budgetItems.length !== 0) {
+						setCurrentBudgetItems(budget.budgetItems);
+						setBudgetName(budget.name);
+						populateBudgetItems(budget.budgetItems);
+						isActive.current = budget.isActive ?? false;
+					}
+				})
+				.catch((err) => console.log(err));
+		} else {
+			isActive.current = false;
+			populateBudgetItems([]);
+		}
 	}, []);
 
-	function populateBudgetItems() {
+	function populateBudgetItems(currentItems) {
 		getAllBudgetItems().then((budgetItems) => {
 			if (budgetItems.length !== 0) {
 				setExpenseItems(
 					budgetItems.filter(
 						(i) =>
 							i.type === "expense" &&
-							!currentBudgetItems.map((item) => item.id).includes(i.id)
+							!currentItems.map((item) => item.id).includes(i.id)
 					)
 				);
 				setIncomeItems(
 					budgetItems.filter(
 						(i) =>
 							i.type === "income" &&
-							!currentBudgetItems.map((item) => item.id).includes(i.id)
+							!currentItems.map((item) => item.id).includes(i.id)
 					)
 				);
 			}
@@ -77,27 +95,52 @@ export function NewBudgetPage() {
 			income: getCurrentBudgetTotalIncome(),
 			expense: getCurrentBudgetTotalExpense(),
 			budgetItems: currentBudgetItems.map((i) => i.id),
+			isActive: isActive.current,
 		};
-		createBudget(budget)
-			.then((data) => {
-				console.log(data);
-				toast({
-					title: "Budget created successfully!",
-					status: "success",
-					duration: 5000,
-					isClosable: true,
+		if (+budgetId !== 0) {
+			budget.id = +budgetId;
+			updateBudget(budget)
+				.then((data) => {
+					console.log(data);
+					toast({
+						title: "Budget created successfully!",
+						status: "success",
+						duration: 5000,
+						isClosable: true,
+					});
+					navigate("/budgets");
+				})
+				.catch((err) => {
+					console.log(err);
+					toast({
+						title: "Budget creation failed!",
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
 				});
-				navigate("/budgets");
-			})
-			.catch((err) => {
-				console.log(err);
-				toast({
-					title: "Budget creation failed!",
-					status: "error",
-					duration: 5000,
-					isClosable: true,
+		} else {
+			createBudget(budget)
+				.then((data) => {
+					console.log(data);
+					toast({
+						title: "Budget created successfully!",
+						status: "success",
+						duration: 5000,
+						isClosable: true,
+					});
+					navigate("/budgets");
+				})
+				.catch((err) => {
+					console.log(err);
+					toast({
+						title: "Budget creation failed!",
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					});
 				});
-			});
+		}
 	}
 
 	function getCurrentBudgetTotalExpense() {
@@ -145,7 +188,9 @@ export function NewBudgetPage() {
 						variant="filled"
 					/>
 				</Flex>
-				<CreateBudgetItem onItemCreate={populateBudgetItems} />
+				<CreateBudgetItem
+					onItemCreate={() => populateBudgetItems(currentBudgetItems)}
+				/>
 			</Flex>
 			<Flex justifyContent="space-between">
 				<Box
@@ -370,3 +415,7 @@ export function NewBudgetPage() {
 		</Box>
 	);
 }
+
+// BudgetView.propTypes = {
+// 	budget: PropTypes.object,
+// };

@@ -5,11 +5,11 @@ import App from "./App.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { TransactionsPage } from "./pages/transactions.jsx";
 import { BudgetsPage } from "./pages/budgets.jsx";
-import { NewBudgetPage } from "./pages/new-budget.jsx";
 import { BudgetItemsPage } from "./pages/budget-items.jsx";
 import { NotesPage } from "./pages/notes.jsx";
 import { NoteEditorPage } from "./pages/note.jsx";
 import { SettingsPage } from "./pages/settings.jsx";
+import { EditBudgetPage } from "./pages/edit-budget.jsx";
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
 				element: <BudgetsPage />,
 			},
 			{
-				path: "/budgets/new",
-				element: <NewBudgetPage />,
+				path: "/budgets/:budgetId",
+				element: <EditBudgetPage />,
 			},
 			{
 				path: "/budget-items",
