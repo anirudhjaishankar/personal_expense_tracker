@@ -1,11 +1,11 @@
 import Dexie from "dexie";
 
 export const db = new Dexie("expense-tracker");
-db.version(9).stores({
+db.version(10).stores({
 	transactions: "++id, date, amount, category, type",
 	budgetItems: "++id, amount, category, type",
 	budgets: "++id, name, income, expense",
-	notes: "++id, content, createdAt, title",
+	notes: "++id, content, updatedAt, title",
 });
 
 export default db;

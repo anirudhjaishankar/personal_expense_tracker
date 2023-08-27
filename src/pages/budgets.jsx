@@ -13,24 +13,42 @@ import { FiPlusCircle } from "react-icons/fi";
 import { getAllBudgets, changeActiveBudget, deleteBudget } from "../db/budgets";
 import { useLiveQuery } from "dexie-react-hooks";
 import { BudgetCard } from "../components/BudgetCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export function BudgetsPage() {
 	const navigate = useNavigate();
 	const toast = useToast();
-	let currentActiveBudget;
+	let [currentActiveBudget, setCurrentActiveBudget] = useState();
 	const budgets = useLiveQuery(async () => {
-		let budgets = await getAllBudgets();
-		return budgets;
+		return await getAllBudgets();
 	}, []);
 
 	useEffect(() => {
-		currentActiveBudget = budgets?.find((b) => b.isActive)?.id;
-		console.log(currentActiveBudget);
+		let activeBudgetId = budgets?.find((b) => b.isActive)?.id;
+		console.log(activeBudgetId);
+		setCurrentActiveBudget(activeBudgetId);
+		if (!currentActiveBudget) {
+			toast({
+				title: "No active budget!",
+				status: "warning",
+				isClosable: true,
+				duration: 5000,
+			});
+		}
 	}, [budgets]);
 
 	function activateBudget(newBudgetId) {
+		if (currentActiveBudget === newBudgetId) {
+			toast({
+				title: "Cannot deactivate only budget!",
+				status: "error",
+				isClosable: true,
+				duration: 5000,
+			});
+			return;
+		}
 		changeActiveBudget(currentActiveBudget, newBudgetId)
-			.then((res) => {
+			.then(() => {
+				setCurrentActiveBudget(newBudgetId);
 				toast({
 					title: "Budget activated!",
 					status: "success",
@@ -39,6 +57,7 @@ export function BudgetsPage() {
 				});
 			})
 			.catch((err) => {
+				console.error(err);
 				toast({
 					title: "Failed to activate budget!",
 					status: "error",
@@ -49,6 +68,18 @@ export function BudgetsPage() {
 	}
 
 	function handleDeleteBudget(budgetId) {
+		console.log(currentActiveBudget, budgetId);
+		if (currentActiveBudget === budgetId) {
+			toast({
+				title: "Failed to delete budget!",
+				description:
+					"Cannot delete an active budget. Please change the current active budget and try again!",
+				status: "error",
+				isClosable: true,
+				duration: 5000,
+			});
+			return;
+		}
 		deleteBudget(budgetId)
 			.then((res) => {
 				toast({
@@ -86,13 +117,14 @@ export function BudgetsPage() {
 			{budgets?.length !== 0 ? (
 				<SimpleGrid columns={3} spacing={4}>
 					{budgets?.map((budget) => {
-						console.log(budget);
 						return (
 							<BudgetCard
 								key={budget.id}
 								budget={budget}
 								onActivate={activateBudget}
 								onDelete={handleDeleteBudget}
+								onEdit={() => {}}
+								onView={() => {}}
 							/>
 						);
 					})}

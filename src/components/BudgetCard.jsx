@@ -11,7 +11,9 @@ import {
 	StatNumber,
 } from "@chakra-ui/react";
 import { FiTrash2, FiEye, FiEdit } from "react-icons/fi";
-export function BudgetCard({ budget, onActivate, onDelete, onEdit }) {
+import PropTypes from "prop-types";
+
+export function BudgetCard({ budget, onActivate, onDelete, onEdit, onView }) {
 	return (
 		<Card borderRadius={10}>
 			<CardHeader>
@@ -20,7 +22,7 @@ export function BudgetCard({ budget, onActivate, onDelete, onEdit }) {
 					<Box>
 						<Switch
 							isChecked={budget.isActive ?? false}
-							onChange={(e) => onActivate(budget.id)}
+							onChange={() => onActivate(budget.id)}
 						/>
 					</Box>
 				</Flex>
@@ -37,8 +39,16 @@ export function BudgetCard({ budget, onActivate, onDelete, onEdit }) {
 					</Stat>
 				</Flex>
 				<Flex justifyContent="end" alignItems="center" mt={4}>
-					<IconButton variant="ghost" icon={<FiEye />} />
-					<IconButton variant="ghost" icon={<FiEdit />} />
+					<IconButton
+						variant="ghost"
+						icon={<FiEye />}
+						onClick={() => onView(budget.id)}
+					/>
+					<IconButton
+						variant="ghost"
+						icon={<FiEdit />}
+						onClick={() => onEdit(budget.id)}
+					/>
 					<IconButton
 						variant="ghost"
 						icon={<FiTrash2 />}
@@ -49,3 +59,11 @@ export function BudgetCard({ budget, onActivate, onDelete, onEdit }) {
 		</Card>
 	);
 }
+
+BudgetCard.propTypes = {
+	budget: PropTypes.object.isRequired,
+	onActivate: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	onEdit: PropTypes.func.isRequired,
+	onView: PropTypes.func.isRequired,
+};

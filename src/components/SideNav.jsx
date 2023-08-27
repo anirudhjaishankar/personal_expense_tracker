@@ -41,10 +41,10 @@ const LinkItems = [
 	{ name: "Settings", icon: FiSettings, route: "/settings" },
 ];
 
-export default function SimpleSidebar({ children }) {
+export default function SimpleSidebar({ children, className }) {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	return (
-		<Box minH="100vh">
+		<Box minH="100vh" className={className}>
 			<SidebarContent
 				onClose={() => onClose}
 				display={{ base: "none", md: "block" }}
@@ -72,7 +72,7 @@ export default function SimpleSidebar({ children }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
-	const { colorMode, toggleColorMode } = useColorMode();
+	const { colorMode } = useColorMode();
 	const location = useLocation();
 	return (
 		<Box
@@ -101,43 +101,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
 					{link.name}
 				</NavItem>
 			))}
-			<Flex
-				align="center"
-				p="4"
-				mx="4"
-				my={2}
-				borderRadius="lg"
-				role="group"
-				cursor="pointer"
-				backgroundColor={colorMode == "light" ? "gray.300" : "gray.800"}
-				_hover={
-					colorMode == "light"
-						? {
-								bg: "gray.400",
-								color: "gray.100",
-						  }
-						: {
-								bg: "cyan.400",
-								color: "gray.100",
-						  }
-				}
-				onClick={toggleColorMode}
-			>
-				<Icon
-					mr="4"
-					fontSize="16"
-					_groupHover={{
-						color: "gray.100",
-					}}
-					as={colorMode == "light" ? FiSun : FiMoon}
-				/>
-				{colorMode.charAt(0).toUpperCase() + colorMode.slice(1)}
-			</Flex>
 		</Box>
 	);
 };
 
-const NavItem = ({ colorMode, isActive, route, icon, children, ...rest }) => {
+const NavItem = ({ colorMode, route, icon, children, ...rest }) => {
 	return (
 		<Link to={route}>
 			<Flex
