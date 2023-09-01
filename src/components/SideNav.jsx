@@ -18,9 +18,9 @@ import {
 	FiFileText,
 	FiDollarSign,
 	FiGrid,
+	FiCheckCircle,
 	FiCalendar,
 	FiBook,
-	FiCheckSquare,
 	FiTarget,
 } from "react-icons/fi";
 
@@ -34,7 +34,7 @@ const LinkItems = [
 	// { name: "Budget Items", icon: FiGrid, route: "/budget-items" },
 	{ name: "Reports", icon: FiFileText, route: "/reports" },
 	{ name: "Bills Reminder", icon: FiCalendar, route: "/reports" },
-	{ name: "Habit tracker", icon: FiCheckSquare, route: "/reports" },
+	{ name: "Habit tracker", icon: FiCheckCircle, route: "/habits" },
 	{ name: "Notes", icon: FiBook, route: "/notes" },
 	{ name: "Settings", icon: FiSettings, route: "/settings" },
 ];

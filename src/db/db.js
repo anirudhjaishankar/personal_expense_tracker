@@ -6,6 +6,7 @@ db.version(11).stores({
 	budgetItems: "++id, amount, category, type",
 	budgets: "++id, name, income, expense",
 	notes: "++id, content, updatedAt, title",
+	habits: "++id, name, ",
 });
 
 export default db;

@@ -10,6 +10,8 @@ import { NotesPage } from "./pages/notes.jsx";
 import { NoteEditorPage } from "./pages/note.jsx";
 import { SettingsPage } from "./pages/settings.jsx";
 import { EditBudgetPage } from "./pages/edit-budget.jsx";
+import { HabitsPage } from "./pages/habits.jsx";
+
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -37,6 +39,7 @@ const router = createBrowserRouter([
 			},
 			{ path: "/notes", element: <NotesPage /> },
 			{ path: "/note", element: <NoteEditorPage /> },
+			{ path: "/habits", element: <HabitsPage /> },
 			{ path: "/settings", element: <SettingsPage /> },
 		],
 	},
