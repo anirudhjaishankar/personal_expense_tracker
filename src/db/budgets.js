@@ -1,4 +1,4 @@
-import { getBudgetItemsByIds } from "./budgetItems";
+import { getBudgetItemsByIds } from "./budget-items";
 import db from "./db";
 
 export function createBudget(newBudget) {
